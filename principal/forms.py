@@ -1,9 +1,15 @@
 from django import forms
 from .models import *
 
+#se crea un formulario que hereda de modelform es decir
+# un formulario que esta asociado a un modelo d ela base de datos
 class EstacionForm(forms.ModelForm):
+    # se definen los metadatos del formulario
     class Meta:
+        # se define el modelo asociado al formulario
         model = Estacion
+        # se definen los campos que tendra este formulario, en este caso serian __all__ (todos)
+        # los campos que presenta el modelo Estacion
         fields = '__all__'
 
 class RVMForm(forms.ModelForm):

@@ -14,14 +14,17 @@
                             </li>
                         {% endif %}
                         {% if 'principal.add_reportevariablemeteorologica' in request.user.get_all_permissions %}
-                            <li style="cursor: pointer"><a onclick="window.location.replace('/rvm/adicionar/')">RVM</a></li>
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/rvm/adicionar/')">RVM</a>
+                            </li>
                         {% endif %}
                         {% if 'principal.add_informevariablemeteorologicageneral' in request.user.get_all_permissions %}
-                            <li style="cursor: pointer"><a onclick="window.location.replace('/iovmg/adicionar/')">IOVMG</a>
+                            <li style="cursor: pointer"><a
+                                    onclick="window.location.replace('/iovmg/adicionar/')">IOVMG</a>
                             </li>
                         {% endif %}
                         {% if 'principal.add_informeoficialvariablemeteorologicapronvincial' in request.user.get_all_permissions %}
-                            <li style="cursor: pointer"><a onclick="window.location.replace('/iovmp/adicionar/')">IOVMP</a>
+                            <li style="cursor: pointer"><a
+                                    onclick="window.location.replace('/iovmp/adicionar/')">IOVMP</a>
                             </li>
                         {% endif %}
                         {% if 'principal.add_partemeteorologicoprovincial' in request.user.get_all_permissions %}
@@ -32,9 +35,9 @@
                         {% endif %}
                     </ul>
                 </div>
-                 Bienvenido {{ usuario }}
-                <a href="{% url 'cerrar_sesion' %}">Cerrar sesion</a>
-                <a href="{% url 'index' %}">Ver listado de partes meteorológicos</a>
+                Bienvenido {{ usuario }}<br>
+                <a href="{% url 'cerrar_sesion' %}">Cerrar sesion</a><br>
+                <a href="{% url 'index' %}">Ver listado de partes meteorológicos</a><br>
             </div>
 
         </div>
