@@ -5,23 +5,32 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-2 col-xs-12">
-                    <div id="gtco-logo"><a href="{% url 'index' %}">Partes<em>Meteorologicos</em></a></div>
+                    <div id="gtco-logo"><a href="{% url 'admin_index' %}">Partes<em>Meteorologicos</em></a></div>
                 </div>
                 <div class="col-xs-10 text-right menu-1 main-nav">
-                    <span>Insertar</span>
+                    <span>Insertar </span>
                     <ul>
-                        <li style="cursor: pointer"><a onclick="window.location.replace('/estaciones/adicionar/')">Estaciones</a>
-                        </li>
-                        <li style="cursor: pointer"><a onclick="window.location.replace('/rvm/adicionar/')">RVM</a></li>
-                        <li style="cursor: pointer"><a onclick="window.location.replace('/iovmg/adicionar/')">IOVMG</a>
-                        </li>
-                        <li style="cursor: pointer"><a onclick="window.location.replace('/iovmp/adicionar/')">IOVMP</a>
-                        </li>
-                        <li style="cursor: pointer"><a onclick="window.location.replace('/pmp/adicionar/')">PMP</a>
-                        <li style="cursor: pointer"><a onclick="window.location.replace('/pmg/adicionar/')">PMG</a>
-                            {#                        <li><a href="{% url 'pmg' %}">PMG</a></li>#}
-                            <!-- For external page link -->
-                            <!-- <li><a href="http://freehtml5.co/" class="external">External</a></li> -->
+                        {% if 'principal.add_estacion' in request.user.get_all_permissions %}
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/estaciones/adicionar/')">Estaciones</a>
+                            </li>
+                        {% endif %}
+                        {% if 'principal.add_reportevariablemeteorologica' in request.user.get_all_permissions %}
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/rvm/adicionar/')">RVM</a></li>
+                        {% endif %}
+                        {% if 'principal.add_informevariablemeteorologicageneral' in request.user.get_all_permissions %}
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/iovmg/adicionar/')">IOVMG</a>
+                            </li>
+                        {% endif %}
+                        {% if 'principal.add_informeoficialvariablemeteorologicapronvincial' in request.user.get_all_permissions %}
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/iovmp/adicionar/')">IOVMP</a>
+                            </li>
+                        {% endif %}
+                        {% if 'principal.add_partemeteorologicoprovincial' in request.user.get_all_permissions %}
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/pmp/adicionar/')">PMP</a>
+                        {% endif %}
+                        {% if 'principal.add_partemeteorologicogeneral' in request.user.get_all_permissions %}
+                            <li style="cursor: pointer"><a onclick="window.location.replace('/pmg/adicionar/')">PMG</a>
+                        {% endif %}
                     </ul>
                 </div>
                 Bienvenido {{ usuario }}
@@ -31,7 +40,7 @@
 
         </div>
     </nav>
-    <section id="gtco-about" data-section="about">
+    <section id="gtco-about" data-section="about" style="padding: 10em 0">
         <div class="row" style="margin-left: 50px">
             <div class="col-md-6">
                 <h1>Estaciones</h1>

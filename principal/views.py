@@ -13,8 +13,9 @@ def cerrar_sesion(request):
 
 @login_required
 def estacion_add_view(request):
+	if 'principal.add_estacion' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	form = EstacionForm()
-	usuario = request.user.username
 	if request.method == 'POST':
 		form = EstacionForm(request.POST)
 		if form.is_valid():
@@ -23,10 +24,12 @@ def estacion_add_view(request):
 			return redirect('admin_index')
 		else:
 			form = EstacionForm(request.POST)
-	return render(request, 'add_template.html', {'form':form, 'objeto':'estación',  'usuario':request.user.username})
+	return render(request, 'add_template.html', {'form':form, 'objeto':'estación',  'usuario':request.user})
 
 @login_required
 def estacion_modify_view(request, estacion_id):
+	if 'principal.change_estacion' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	estacion = get_object_or_404(Estacion, pk=estacion_id)
 	form = EstacionForm(instance=estacion)
 	if request.method == 'POST':
@@ -37,16 +40,21 @@ def estacion_modify_view(request, estacion_id):
 			return redirect('admin_index')
 		else:
 			form = EstacionForm(request.POST)
-	return render(request, 'modify_template.html', {'form':form, 'objeto':'estación',  'usuario':request.user.username})
+	return render(request, 'modify_template.html', {'form':form, 'objeto':'estación',  'usuario':request.user, 'puede_eliminar':request.user.has_perm('principal.delete_estacion')})
 
 @login_required
 def estacion_delete_view(request, estacion_id):
+	puede_eliminar = request.user.has_perm('principal.delete_estacion')
+	if puede_eliminar == False:
+		return redirect('/estaciones/modificar/'+estacion_id+'/eliminar/')
 	estacion = get_object_or_404(Estacion, pk=estacion_id)
 	estacion.delete()
 	return redirect('admin_index')
 
 @login_required
 def rvm_add_view(request):
+	if 'principal.add_reportevariablemeteorologica' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	form = RVMForm()
 	if request.method == 'POST':
 		form = RVMForm(request.POST)
@@ -63,10 +71,12 @@ def rvm_add_view(request):
 			return redirect('admin_index')
 		else:
 			form = RVMForm(request.POST)
-	return render(request, 'add_template.html', {'form':form, 'objeto':'reporte de variable meteorologica',  'usuario':request.user.username})
+	return render(request, 'add_template.html', {'form':form, 'objeto':'reporte de variable meteorologica',  'usuario':request.user})
 
 @login_required
 def rvm_modify_view(request, rvm_id):
+	if 'principal.change_reportevariablemeteorologica' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	rvm = get_object_or_404(ReporteVariableMeteorologica, pk=rvm_id)
 	form = RVMForm(instance=rvm)
 	if request.method == 'POST':
@@ -86,16 +96,23 @@ def rvm_modify_view(request, rvm_id):
 			return redirect('admin_index')
 		else:
 			form = RVMForm(request.POST)
-	return render(request, 'modify_template.html', {'form':form, 'objeto':'reporte de variable meteorologica',  'usuario':request.user.username})
+	return render(request, 'modify_template.html', {'form':form, 'objeto':'reporte de variable meteorologica',  'usuario':request.user})
 
 @login_required
 def rvm_delete_view(request, rvm_id):
+	puede_eliminar = request.user.has_perm('principal.delete_ereportevariablemeteorologica')
+	if puede_eliminar == False:
+		return redirect('/rvm/modificar/' + rvm_id + '/eliminar/')
 	rvm = get_object_or_404(ReporteVariableMeteorologica, pk=rvm_id)
 	rvm.delete()
 	return redirect('admin_index')
 
+#{'auth.delete_permission', 'auth.add_user', 'auth.add_group', 'principal.delete_informeoficialvariablemeteorologicapronvincial', 'principal.delete_partemeteorologicoprovincial', 'principal.add_partemeteorologicogeneral', 'admin.delete_logentry', 'principal.add_informeoficialvariablemeteorologicapronvincial', 'auth.delete_group', 'admin.view_logentry', 'principal.view_estacion', 'principal.change_informevariablemeteorologicageneral', 'principal.change_partemeteorologicogeneral', 'principal.change_partemeteorologicoprovincial', 'contenttypes.change_contenttype', 'admin.add_logentry', 'auth.view_group', 'principal.add_reportevariablemeteorologica', 'principal.delete_partemeteorologicogeneral', 'principal.delete_estacion', 'principal.view_informevariablemeteorologicageneral', 'principal.add_informevariablemeteorologicageneral', 'principal.view_informeoficialvariablemeteorologicapronvincial', 'principal.change_informeoficialvariablemeteorologicapronvincial', 'contenttypes.add_contenttype', 'principal.view_partemeteorologicogeneral', 'auth.add_permission', 'auth.delete_user', 'auth.view_user', 'auth.change_group', 'auth.view_permission', 'principal.view_reportevariablemeteorologica', 'sessions.delete_session', 'auth.change_user', 'principal.add_estacion', 'principal.delete_informevariablemeteorologicageneral', 'admin.change_logentry', 'principal.delete_reportevariablemeteorologica', 'contenttypes.delete_contenttype', 'principal.change_estacion', 'contenttypes.view_contenttype', 'sessions.view_session', 'principal.view_partemeteorologicoprovincial', 'principal.add_partemeteorologicoprovincial', 'sessions.change_session', 'principal.change_reportevariablemeteorologica', 'auth.change_permission', 'sessions.add_session'}
+
 @login_required
 def iovmg_add_view(request):
+	if 'principal.add_informevariablemeteorologicageneral' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	form = IOVMGForm()
 	if request.method == 'POST':
 		form = IOVMGForm(request.POST)
@@ -110,10 +127,12 @@ def iovmg_add_view(request):
 			return redirect('admin_index')
 		else:
 			form = IOVMGForm(request.POST)
-	return render(request, 'add_template.html', {'form':form, 'objeto':'informe oficial de variable meteorologica general',  'usuario':request.user.username})
+	return render(request, 'add_template.html', {'form':form, 'objeto':'informe oficial de variable meteorologica general',  'usuario':request.user})
 
 @login_required
 def iovmg_modify_view(request, iovmg_id):
+	if 'principal.change_informevariablemeteorologicageneral' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	iovmg = get_object_or_404(InformeVariableMeteorologicaGeneral, pk=iovmg_id)
 	form = IOVMGForm(instance=iovmg)
 	if request.method == 'POST':
@@ -130,16 +149,21 @@ def iovmg_modify_view(request, iovmg_id):
 			return redirect('admin_index')
 		else:
 			form = IOVMGForm(request.POST)
-	return render(request, 'modify_template.html', {'form':form, 'objeto':'informe de variable meteorologica general',  'usuario':request.user.username})
+	return render(request, 'modify_template.html', {'form':form, 'objeto':'informe de variable meteorologica general',  'usuario':request.user})
 
 @login_required
 def iovmg_delete_view(request, iovmg_id):
+	puede_eliminar = request.user.has_perm('principal.delete_informevariablemeteorologicageneral')
+	if puede_eliminar == False:
+		return redirect('/iovmg/modificar/' + iovmg_id + '/eliminar/')
 	iovmg = get_object_or_404(InformeVariableMeteorologicaGeneral, pk=iovmg_id)
 	iovmg.delete()
 	return redirect('admin_index')
 
 @login_required
 def iovmp_add_view(request):
+	if 'principal.add_informeoficialvariablemeteorologicapronvincial' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	form = IOVMPForm()
 	if request.method == 'POST':
 		form = IOVMPForm(request.POST)
@@ -154,10 +178,12 @@ def iovmp_add_view(request):
 			return redirect('admin_index')
 		else:
 			form = IOVMPForm(request.POST)
-	return render(request, 'add_template.html', {'form':form, 'objeto':'informe oficial de variable meteorologica provincial',  'usuario':request.user.username})
+	return render(request, 'add_template.html', {'form':form, 'objeto':'informe oficial de variable meteorologica provincial',  'usuario':request.user})
 
 @login_required
 def iovmp_modify_view(request, iovmp_id):
+	if 'principal.change_informeoficialvariablemeteorologicapronvincial' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	iovmp = get_object_or_404(InformeOficialVariableMeteorologicaPronvincial, pk=iovmp_id)
 	form = IOVMPForm(instance=iovmp)
 	if request.method == 'POST':
@@ -175,16 +201,21 @@ def iovmp_modify_view(request, iovmp_id):
 			return redirect('admin_index')
 		else:
 			form = IOVMGForm(request.POST)
-	return render(request, 'modify_template.html', {'form':form, 'objeto':'informe de variable meteorologica provincial',  'usuario':request.user.username})
+	return render(request, 'modify_template.html', {'form':form, 'objeto':'informe de variable meteorologica provincial',  'usuario':request.user})
 
 @login_required
 def iovmp_delete_view(request, iovmp_id):
+	puede_eliminar = request.user.has_perm('principal.delete_informeoficialvariablemeteorologicapronvincial')
+	if puede_eliminar == False:
+		return redirect('/iovmp/modificar/' + iovmp_id + '/eliminar/')
 	iovmp = get_object_or_404(InformeOficialVariableMeteorologicaPronvincial, pk=iovmp_id)
 	iovmp.delete()
 	return redirect('admin_index')
 
 @login_required
 def pmp_add_view(request):
+	if 'principal.add_partemeteorologicoprovincial' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	form = PMPForm()
 	if request.method == 'POST':
 		form = PMPForm(request.POST)
@@ -198,10 +229,12 @@ def pmp_add_view(request):
 			return redirect('admin_index')
 		else:
 			form = PMPForm(request.POST)
-	return render(request, 'add_template.html', {'form':form, 'objeto':'parte meteorologico provincial',  'usuario':request.user.username})
+	return render(request, 'add_template.html', {'form':form, 'objeto':'parte meteorologico provincial',  'usuario':request.user})
 
 @login_required
 def pmp_modify_view(request, pmp_id):
+	if 'principal.change_partemeteorologicoprovincial' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	pmp = get_object_or_404(ParteMeteorologicoProvincial, pk=pmp_id)
 	form = PMPForm(instance=pmp)
 	if request.method == 'POST':
@@ -217,16 +250,21 @@ def pmp_modify_view(request, pmp_id):
 			return redirect('admin_index')
 		else:
 			form = PMPForm(request.POST)
-	return render(request, 'modify_template.html', {'form':form, 'objeto':'parte meteorologico provincial',  'usuario':request.user.username})
+	return render(request, 'modify_template.html', {'form':form, 'objeto':'parte meteorologico provincial',  'usuario':request.user})
 
 @login_required
 def pmp_delete_view(request, pmp_id):
+	puede_eliminar = request.user.has_perm('principal.delete_partemeteorologicoprovincial')
+	if puede_eliminar == False:
+		return redirect('/pmp/modificar/' + pmp_id + '/eliminar/')
 	pmp = get_object_or_404(ParteMeteorologicoProvincial, pk=pmp_id)
 	pmp.delete()
 	return redirect('admin_index')
 
 @login_required
 def pmg_add_view(request):
+	if 'principal.add_partemeteorologicogeneral' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	form = PMGForm()
 	if request.method == 'POST':
 		form = PMGForm(request.POST)
@@ -240,10 +278,12 @@ def pmg_add_view(request):
 			return redirect('admin_index')
 		else:
 			form = PMGForm(request.POST)
-	return render(request, 'add_template.html', {'form':form, 'objeto':'parte meteorologico general',  'usuario':request.user.username})
+	return render(request, 'add_template.html', {'form':form, 'objeto':'parte meteorologico general',  'usuario':request.user})
 
 @login_required
 def pmg_modify_view(request, pmg_id):
+	if 'principal.change_partemeteorologicogeneral' not in request.user.get_all_permissions():
+		return redirect('admin_index')
 	pmg = get_object_or_404(ParteMeteorologicoGeneral, pk=pmg_id)
 	form = PMGForm(instance=pmg)
 	if request.method == 'POST':
@@ -258,10 +298,13 @@ def pmg_modify_view(request, pmg_id):
 			return redirect('admin_index')
 		else:
 			form = PMGForm(request.POST)
-	return render(request, 'modify_template.html', {'form':form, 'objeto':'parte meteorologico general',  'usuario':request.user.username})
+	return render(request, 'modify_template.html', {'form':form, 'objeto':'parte meteorologico general',  'usuario':request.user})
 
 @login_required
 def pmg_delete_view(request, pmg_id):
+	puede_eliminar = request.user.has_perm('principal.delete_partemeteorologicogeneral')
+	if puede_eliminar == False:
+		return redirect('/pmg/modificar/' + pmg_id + '/eliminar/')
 	pmg = get_object_or_404(ParteMeteorologicoGeneral, pk=pmg_id)
 	pmg.delete()
 	return redirect('admin_index')
@@ -276,7 +319,7 @@ def admin_index(request):
 	pmg = ParteMeteorologicoGeneral.objects.all()
 	return render(request, 'admin_index.html', {'estaciones':estaciones, 'rvm':rvm,
 												'iovmp':iovmp, 'iovmg':iovmg, 'pmp':pmp,
-												'pmg':pmg,  'usuario':request.user.username})
+												'pmg':pmg,  'usuario':request.user})
 
 def login_request(request):
 	if request.method == "POST":
