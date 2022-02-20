@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}Sistema de Gestión Meteorológica | {{ site_title|default:_('SGM') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Sistema de Gestión Meteorológica</a></h1>
+{% endblock %}
+{% block usertools %}
+    {% if has_permission %}
+    <div id="user-tools">
+        {% block welcome-msg %}
+            Bienvenido,
+            <strong>{% firstof user.get_short_name user.get_username %}</strong>.&nbsp;&nbsp;&nbsp;
+        {% endblock %}
+        {% block userlinks %}
+            {% if user.is_active and user.is_staff %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                    <a href="{{ docsroot }}">Documentación</a> &nbsp;&nbsp;&nbsp;
+                {% endif %}
+            {% endif %}
+            {% if user.has_usable_password %}
+            <!--<a href="{% url 'admin:password_change' %}">Cambiar contraseña</a> &nbsp;&nbsp;&nbsp;-->
+            {% endif %}
+            <a href="{% url 'admin:logout' %}">Cerrar sesión</a>
+        {% endblock %}
+    </div>
+
+    {% endif %}
+    {% endblock %}
+
+{% block nav-global %}{% endblock %}

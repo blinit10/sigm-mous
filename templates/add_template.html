@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block contenido %}
+    <nav class="gtco-nav" role="navigation" style="background-color: black">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo"><a href="index.html">Just<em>ice</em></a></div>
+                </div>
+                <div class="col-xs-10 text-right menu-1 main-nav">
+                    <span>Insertar</span>
+                    <ul>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/estaciones/adicionar/')">Estaciones</a>
+                        </li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/rvm/adicionar/')">RVM</a></li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/iovmg/adicionar/')">IOVMG</a>
+                        </li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/iovmp/adicionar/')">IOVMP</a>
+                        </li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/pmp/adicionar/')">PMP</a>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/pmg/adicionar/')">PMG</a>
+                        {#                        <li><a href="{% url 'pmg' %}">PMG</a></li>#}
+                        <!-- For external page link -->
+                        <!-- <li><a href="http://freehtml5.co/" class="external">External</a></li> -->
+                    </ul>
+                </div>
+                Bienvenido {{ usuario }}
+                <a href="{% url 'cerrar_sesion' %}">Cerrar sesion</a>
+                <a href="{% url 'index' %}">Ver listado de partes meteorológicos</a>
+            </div>
+
+        </div>
+    </nav>
+    <section id="gtco-about" data-section="about">
+        <div class="container">
+            <div class="row row-pb-md">
+                <div class="col-md-8 heading animate-box" data-animate-effect="fadeIn">
+                    {% load crispy_forms_tags %}
+
+                    <!--Login-->
+                    <div class="container py-5">
+                        <h1>Adicionar una {{ objeto }}</h1>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_ul }}
+                            <button class="btn btn-primary" type="submit">Adicionar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

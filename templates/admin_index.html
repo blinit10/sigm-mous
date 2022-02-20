@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block contenido %}
+
+    <nav class="gtco-nav" role="navigation" style="background-color: black">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 col-xs-12">
+                    <div id="gtco-logo"><a href="index.html">Partes<em>Meteorologicos</em></a></div>
+                </div>
+                <div class="col-xs-10 text-right menu-1 main-nav">
+                    <span>Insertar</span>
+                    <ul>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/estaciones/adicionar/')">Estaciones</a>
+                        </li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/rvm/adicionar/')">RVM</a></li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/iovmg/adicionar/')">IOVMG</a>
+                        </li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/iovmp/adicionar/')">IOVMP</a>
+                        </li>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/pmp/adicionar/')">PMP</a>
+                        <li style="cursor: pointer"><a onclick="window.location.replace('/pmg/adicionar/')">PMG</a>
+                            {#                        <li><a href="{% url 'pmg' %}">PMG</a></li>#}
+                            <!-- For external page link -->
+                            <!-- <li><a href="http://freehtml5.co/" class="external">External</a></li> -->
+                    </ul>
+                </div>
+                Bienvenido {{ usuario }}
+                <a href="{% url 'cerrar_sesion' %}">Cerrar sesion</a>
+                <a href="{% url 'index' %}">Ver listado de partes meteorológicos</a>
+            </div>
+
+        </div>
+    </nav>
+    <section id="gtco-about" data-section="about">
+        <div class="row" style="margin-left: 50px">
+            <div class="col-md-6">
+                <h1>Estaciones</h1>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                    </tr>
+                    {% for estacion in estaciones %}
+                        <tr>
+
+                            <td><a href="{% url 'estacion_modify_view' estacion.pk %}">{{ estacion.pk }}</a></td>
+                            <td><a href="{% url 'estacion_modify_view' estacion.pk %}">{{ estacion.estacion }}</a></td>
+
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <h1>Reportes de variables meteorólogicas</h1>
+            <table style="text-align: center">
+                <tr>
+                    <th>Estación</th>
+                    <th>Meteorólogo</th>
+                    <th>Fecha y hora</th>
+                    <th>Temperatura</th>
+                    <th>Humedad</th>
+                    <th>Presion</th>
+                    <th>DIRR</th>
+                    <th>DIRS</th>
+                    <th>VELS</th>
+                    <th>VELP</th>
+                </tr>
+                {% for item in rvm %}
+                    <tr>
+                        <td><a href="{% url 'rvm_modify_view' item.pk %}">{{ item.estacion }}</a></td>
+                        <td><a href="{% url 'rvm_modify_view' item.pk %}">{{ item.meteorologo }}</a></td>
+                        <td><a href="{% url 'rvm_modify_view' item.pk %}">{{ item.fecha_hora }}</a></td>
+                        <td>{{ item.temperatura }}</td>
+                        <td>{{ item.humedad }}</td>
+                        <td>{{ item.presion }}</td>
+                        <td>{{ item.dirr }}</td>
+                        <td>{{ item.dirs }}</td>
+                        <td>{{ item.vels }}</td>
+                        <td>{{ item.velp }}</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 10px">
+            <h1>Informes oficiales de variables meteorólogicas generales</h1>
+            <table style="text-align: center">
+                <tr>
+                    <th>Tecnico</th>
+                    <th>Fecha y hora</th>
+                    <th>Temperatura</th>
+                    <th>Viento</th>
+                    <th>Lluvia</th>
+                    <th>Humedad</th>
+                    <th>Barometro</th>
+                </tr>
+                {% for item in iovmg %}
+                    <tr>
+                        <td><a href="{% url 'iovmg_modify_view' item.pk %}">{{ item.tecnico }}</a></td>
+                        <td><a href="{% url 'iovmg_modify_view' item.pk %}">{{ item.fecha_hora }}</a></td>
+                        <td>{{ item.temperatura }}</td>
+                        <td>{{ item.viento }}</td>
+                        <td>{{ item.lluvia }}</td>
+                        <td>{{ item.humedad }}</td>
+                        <td>{{ item.barometro }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 10px">
+            <h1>Informes oficiales de variables meteorólogicas provinciales</h1>
+            <table style="text-align: center">
+                <tr>
+                    <th>Provincia</th>
+                    <th>Estación</th>
+                    <th>Fecha y hora</th>
+                    <th>Viento</th>
+                    <th>Lluvia</th>
+                    <th>Temperatura</th>
+                    <th>Humedad</th>
+                    <th>Barometro</th>
+                </tr>
+                {% for item in iovmp %}
+                    <tr>
+                        <td><a href="{% url 'iovmp_modify_view' item.pk %}">{{ item.get_provincia_display }}</a></td>
+                        <td><a href="{% url 'iovmp_modify_view' item.pk %}">{{ item.estacion }}</a></td>
+                        <td><a href="{% url 'iovmp_modify_view' item.pk %}">{{ item.fecha_hora }}</a></td>
+                        <td>{{ item.viento }}</td>
+                        <td>{{ item.lluvia }}</td>
+                        <td>{{ item.temperatura }}</td>
+                        <td>{{ item.humedad }}</td>
+                        <td>{{ item.barometro }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-md-12" style="margin-top: 10px">
+            <h1>Partes meteorológicos provinciales</h1>
+            <table style="text-align: center">
+                <tr>
+                    <th>Provincia</th>
+                    <th>Meteorólogo</th>
+                    <th>fecha y hora</th>
+                    <th>Temperatura</th>
+                    <th>Viento</th>
+                    <th>LLuvia</th>
+                </tr>
+                {% for item in pmp %}
+                    <tr>
+                        <td><a href="{% url 'pmp_modify_view' item.pk %}">{{ item.get_provincia_display }}</a></td>
+                        <td><a href="{% url 'pmp_modify_view' item.pk %}">{{ item.meteorologo }}</a></td>
+                        <td><a href="{% url 'pmp_modify_view' item.pk %}">{{ item.fecha_hora }}</a></td>
+                        <td>{{ item.temperatura }}</td>
+                        <td>{{ item.viento }}</td>
+                        <td>{{ item.lluvia }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-md-12" style="margin-top: 10px">
+            <h1>Partes meteorológicos generales</h1>
+            <table style="text-align: center">
+                <tr>
+                    <th>Tecnico</th>
+                    <th>Fecha y hora</th>
+                    <th>Temperatura</th>
+                    <th>Viento</th>
+                    <th>LLuvia</th>
+                </tr>
+                {% for item in pmg %}
+                    <tr>
+                        <td><a href="{% url 'pmg_modify_view' item.pk %}">{{ item.tecnico }}</a></td>
+                        <td><a href="{% url 'pmg_modify_view' item.pk %}">{{ item.fecha_hora }}</a></td>
+                        <td>{{ item.temperatura }}</td>
+                        <td>{{ item.viento }}</td>
+                        <td>{{ item.lluvia }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+
+
+
+{% endblock %}
